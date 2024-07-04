@@ -1,9 +1,12 @@
+#ifndef ASTARNODE_H
+#define ASTARNODE_H
+
 #include "Common.h"
 
 class AstarNode
 {
 public:
-    coordinate xy;
+    coordinate coord;
     double g_val;
     double h_val;
     AstarNode* parent;
@@ -37,12 +40,12 @@ public:
     fibonacci_heap< AstarNode*, compare<AstarNode::compare_node> >::handle_type open_handle;
     fibonacci_heap< AstarNode*, compare<AstarNode::secondary_compare_node> >::handle_type focal_handle;
 
-        struct EqNode
+    struct EqNode
     {
         bool operator() (const AstarNode* n1, const AstarNode* n2) const
         {
             return (n1 == n2) ||
-                   (n1 && n2 && n1->xy == n2->xy && n1->goal_id == n2->goal_id); //这里直接比较xy不知道会不会出问题
+                   (n1 && n2 && n1->coord.x == n2->coord.x && n1->coord.y == n2->coord.y); //TODO：这里比较后面在关注下,有点不对
         }
     };
 
@@ -50,15 +53,15 @@ public:
     {
         std::size_t operator()(const AstarNode* n) const
         {
-            size_t x_hash = std::hash<int>()(n->xy.first);
-            size_t y_hash = std::hash<int>()(n->xy.second);
+            size_t x_hash = std::hash<int>()(n->coord.x);
+            size_t y_hash = std::hash<int>()(n->coord.y);
             return (x_hash ^ y_hash << 1);
         }
     };
 
     AstarNode(): g_val(0), h_val(0), parent(nullptr), conflicts(0), depth(0), in_openlist(false), goal_id(0) {}
-    AstarNode(const coordinate& xy, double g_val, double h_val, AstarNode* parent, int conflicts):
-        xy(xy), g_val(g_val), h_val(h_val), parent(parent), conflicts(conflicts), in_openlist(false)
+    AstarNode(const coordinate& coord, double g_val, double h_val, AstarNode* parent, int conflicts):
+        coord(coord), g_val(g_val), h_val(h_val), parent(parent), conflicts(conflicts), in_openlist(false)
     {
         if(parent != nullptr)
         {
@@ -75,3 +78,5 @@ public:
 
     inline double getFVal() const { return g_val + h_val; }
 };
+
+#endif

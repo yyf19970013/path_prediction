@@ -1,5 +1,7 @@
-#pragma once
+#ifndef COMMON_H
+#define COMMON_H
 
+#include <algorithm>
 #include <tuple>
 #include <list>
 #include <vector>
@@ -7,11 +9,13 @@
 #include <ctime>
 #include <fstream>
 #include <iostream>     
-#include <iomanip>      
+#include <iomanip>
+#include <random>
+#include <chrono>      
 #include <boost/heap/fibonacci_heap.hpp>
 #include <boost/unordered_set.hpp>
 #include <boost/unordered_map.hpp>
-#include "OutIn.h"
+
 
 using boost::heap::fibonacci_heap;
 using boost::heap::compare;
@@ -21,6 +25,10 @@ using boost::unordered_map;
 using boost::heap::compare;
 using boost::unordered_map;
 using boost::unordered_set;
+
+//using namespace std; //TODO:如果这里定义了统一std，会导致common中自定义的map意义不明确报错
+using std::sort;
+using std::swap;
 using std::vector;
 using std::list;
 using std::set;
@@ -40,31 +48,52 @@ using std::endl;
 using std::ofstream;
 using std::cerr;
 using std::string;
+using std::random_device;
 
-enum Conf{Vertex, Side};
-
-typedef tuple<coordinate, int, int> Constraint;//[0]:位置，[1]:最早到达时间， [2]:最晚到达时间//TODO:后续还需再琢磨
-typedef tuple<int, int, int, int, Conf> Conflict;//[0]:AGV1、[1]:AGV2、[2]:碰撞起点、[3]:碰撞终点、[4]：碰撞类型
-
-typedef tuple<int, int, int, int> mapRoute;//顺时针（上、右、下、左）1:不可走，0：可行驶
-typedef vector<vector<pair<int,mapRoute>>> map;
-
-typedef pair<int,int> coordinate;//单坐标点
-
+// enum ConfClass{Vertex, Side};
+ 
+struct coordinate{//TODO：如果需要将其作为一个类型传递进函数中，需要保证参数名字和struct名字不能相同，不然存在歧义，导致编译有问题
+    int x;
+    int y;
+    coordinate():x(-1),y(-1){}
+    coordinate(int x_, int y_):x(x_),y(y_){}
+    bool operator==(const coordinate& other) const
+    {
+        return x == other.x && y == other.y;
+    }
+    bool operator!=(const coordinate& other) const
+    {
+        return x != other.x && y != other.y;
+    }
+};
+//------------------碰撞相关部分-------------------//
+typedef vector<pair<double, double>> pointConstraint;//pair.first:最早到达时间；pair.second:最晚到达时间（vector包含当前点存在的多条路径影响下存在的多个时间限制）
+typedef pair<int, int> sideConflict;//[0]:AGV1，[1]:AGV2，[2]:true->x, false->y(沿x或y)//TODO:这个[2]的信息感觉没啥意思
+typedef tuple<int, int, coordinate, coordinate> vertexConflict;//[0]:AGV1，[1]:AGV2，[2]:AGV1等待点，[3]:AGV2等待点
+//-------------------地图部分---------------------//
+typedef tuple<bool, bool, bool, bool> mapRoute;//当前格可行驶方向(出的方向)，顺时针（上、右、下、左）,true：可走，false：阻挡
+typedef vector<vector<mapRoute>> Map;
+//-------------------路径部分---------------------//
 typedef vector<coordinate> Path;//所有路径点
+typedef vector<Path> sidePath;//TODO:只记录段信息,且左闭右开（从当前段开头，到当前段最后一个点（下一段的起点）前）
 
-typedef vector<pair<coordinate,coordinate>> sidePath;//只记录段信息,且左闭右开（从当前段开头，到当前段最后一个点（下一段的起点）前）
-
+typedef vector<tuple<int, int, int, int>> rectConstriants;//暂时好像不需要
 
 class Common{
 
 public:
-    int getRow(){return row;}
-    int getCol(){return col;}
+    int getRow(){return row_;}
+    int getCol(){return col_;}
+    void setRow(int row){row_ = row;}
+    void setCol(int col){col_ = col;}
+    
+    bool isTimeOverlap(pair<double,double> i_range, pair<double,double> j_range);
 
 private:
 
-    int row = 20;
-    int col = 55;
+    int row_;
+    int col_;
 
 };
+
+#endif

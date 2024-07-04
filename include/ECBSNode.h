@@ -1,5 +1,7 @@
+#ifndef ECBSNODE_H
+#define ECBSNODE_H
+
 #include "Common.h"
-#include "Path.h"
 
 class ECBSNode{
 
@@ -9,7 +11,8 @@ public:
     {
         bool operator()(const ECBSNode* n1, const ECBSNode* n2) const
         {
-            return n1->min_f_val_ >= n2->min_f_val_;
+            return n1->f_val_ >= n2->f_val_;
+            // return n1->min_f_val_ >= n2->min_f_val_;
         }
     };
 
@@ -32,20 +35,17 @@ public:
 
     ECBSNode(): parent_(nullptr), g_val_(0), h_val_(0), min_f_val_(0){}
     ECBSNode(ECBSNode* parent);
-    ~ECBSNode();
-    bool IsConflictsEmpty(){return conflicts_.empty();}
+    ~ECBSNode() = default;
+    bool IsSideConfEmpty(){return sideConflicts_.empty();}
 
-    // list<shared_ptr<Conflict>> GetConflicts(){return conflicts_;}
-    // shared_ptr<Conflict> GetConflict(){return conflict_;}
+    int constraintID_;
+    vector<sideConflict> sideConflicts_;
+    vector<vertexConflict> vertexConflicts_;
 
-    // void setConfilcts(const list<shared_ptr<Conflict>>& conflicts){conflicts_ = conflicts;}
-    // void setPaths(int i, const sidePath& path, double min_f_val, double cost);
-
-    shared_ptr<Conflict> conflict_;
-    list<shared_ptr<Conflict>> conflicts_;
-
-    vector<pair<int,Path>> paths_;//first记录车辆正反状态
-    vector<tuple<int, sidePath, double, double>> spaths_;//tuple[0]：正反车标志位,double都为代价
+    vector<Path> paths_;//double都为代价
+    vector<double> path_cost_;
+    vector<sidePath> spaths_;//tuple[0]：正反车标志位,
+    vector<Path> turnPoints; //各路径转弯拐点//TODO：在每次计算路径的时候都要记录以下    
 
     ECBSNode* parent_;
     double g_val_;
@@ -59,3 +59,5 @@ public:
 private:
 
 };
+
+#endif
