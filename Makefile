@@ -204,59 +204,59 @@ src/ConstraintTable.cpp.s:
 	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/ConstraintTable.cpp.s
 .PHONY : src/ConstraintTable.cpp.s
 
-src/ECBS.o: src/ECBS.cpp.o
+src/OCBS.o: src/OCBS.cpp.o
 
-.PHONY : src/ECBS.o
-
-# target to build an object file
-src/ECBS.cpp.o:
-	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/ECBS.cpp.o
-.PHONY : src/ECBS.cpp.o
-
-src/ECBS.i: src/ECBS.cpp.i
-
-.PHONY : src/ECBS.i
-
-# target to preprocess a source file
-src/ECBS.cpp.i:
-	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/ECBS.cpp.i
-.PHONY : src/ECBS.cpp.i
-
-src/ECBS.s: src/ECBS.cpp.s
-
-.PHONY : src/ECBS.s
-
-# target to generate assembly for a file
-src/ECBS.cpp.s:
-	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/ECBS.cpp.s
-.PHONY : src/ECBS.cpp.s
-
-src/ECBSNode.o: src/ECBSNode.cpp.o
-
-.PHONY : src/ECBSNode.o
+.PHONY : src/OCBS.o
 
 # target to build an object file
-src/ECBSNode.cpp.o:
-	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.o
-.PHONY : src/ECBSNode.cpp.o
+src/OCBS.cpp.o:
+	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/OCBS.cpp.o
+.PHONY : src/OCBS.cpp.o
 
-src/ECBSNode.i: src/ECBSNode.cpp.i
+src/OCBS.i: src/OCBS.cpp.i
 
-.PHONY : src/ECBSNode.i
+.PHONY : src/OCBS.i
 
 # target to preprocess a source file
-src/ECBSNode.cpp.i:
-	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.i
-.PHONY : src/ECBSNode.cpp.i
+src/OCBS.cpp.i:
+	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/OCBS.cpp.i
+.PHONY : src/OCBS.cpp.i
 
-src/ECBSNode.s: src/ECBSNode.cpp.s
+src/OCBS.s: src/OCBS.cpp.s
 
-.PHONY : src/ECBSNode.s
+.PHONY : src/OCBS.s
 
 # target to generate assembly for a file
-src/ECBSNode.cpp.s:
-	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.s
-.PHONY : src/ECBSNode.cpp.s
+src/OCBS.cpp.s:
+	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/OCBS.cpp.s
+.PHONY : src/OCBS.cpp.s
+
+src/OCBSNode.o: src/OCBSNode.cpp.o
+
+.PHONY : src/OCBSNode.o
+
+# target to build an object file
+src/OCBSNode.cpp.o:
+	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.o
+.PHONY : src/OCBSNode.cpp.o
+
+src/OCBSNode.i: src/OCBSNode.cpp.i
+
+.PHONY : src/OCBSNode.i
+
+# target to preprocess a source file
+src/OCBSNode.cpp.i:
+	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.i
+.PHONY : src/OCBSNode.cpp.i
+
+src/OCBSNode.s: src/OCBSNode.cpp.s
+
+.PHONY : src/OCBSNode.s
+
+# target to generate assembly for a file
+src/OCBSNode.cpp.s:
+	$(MAKE) -f CMakeFiles/path_prediction.dir/build.make CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.s
+.PHONY : src/OCBSNode.cpp.s
 
 src/OutIn.o: src/OutIn.cpp.o
 
@@ -384,12 +384,12 @@ help:
 	@echo "... src/ConstraintTable.o"
 	@echo "... src/ConstraintTable.i"
 	@echo "... src/ConstraintTable.s"
-	@echo "... src/ECBS.o"
-	@echo "... src/ECBS.i"
-	@echo "... src/ECBS.s"
-	@echo "... src/ECBSNode.o"
-	@echo "... src/ECBSNode.i"
-	@echo "... src/ECBSNode.s"
+	@echo "... src/OCBS.o"
+	@echo "... src/OCBS.i"
+	@echo "... src/OCBS.s"
+	@echo "... src/OCBSNode.o"
+	@echo "... src/OCBSNode.i"
+	@echo "... src/OCBSNode.s"
 	@echo "... src/OutIn.o"
 	@echo "... src/OutIn.i"
 	@echo "... src/OutIn.s"

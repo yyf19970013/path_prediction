@@ -1,6 +1,6 @@
-#include "ECBSNode.h"
+#include "OCBSNode.h"
 
-ECBSNode::ECBSNode(ECBSNode* parent){
+OCBSNode::OCBSNode(OCBSNode* parent){
     parent_ = parent;
     g_val_ = parent->g_val_;//这个赋值后面再看一下
     h_val_ = 0;
@@ -8,7 +8,7 @@ ECBSNode::ECBSNode(ECBSNode* parent){
     depth_ = parent_->depth_ + 1;
 }
 
-// void ECBSNode::setPaths(int i, const sidePath& path, double min_f_val, double cost)
+// void OCBSNode::setPaths(int i, const sidePath& path, double min_f_val, double cost)
 // {
 //     paths_.emplace_back(make_tuple(i, path, min_f_val, cost));
 // }

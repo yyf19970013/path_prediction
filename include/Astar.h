@@ -25,11 +25,8 @@ public:
     void setMapsize(Map map);
     void drawPath(const Path& p, const vector<vector<int>>& m);
 
-
     double min_f_val;
     double path_cost;
-
-
 
     fibonacci_heap< AstarNode*, compare<AstarNode::compare_node> > open_list;
 	fibonacci_heap< AstarNode*, compare<AstarNode::secondary_compare_node> > focal_list;

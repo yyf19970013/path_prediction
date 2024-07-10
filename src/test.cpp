@@ -138,8 +138,8 @@ int main()
   }
   maps[2] = maps.at(0);
   maps[3] = maps.at(1);
-  cout << "maps1-size" << maps.at(0).size() << " x " << maps.at(0).size() << endl;
-  cout << "maps2-size" << maps.at(1).size() << " x " << maps.at(0).size() << endl;
+  cout << "maps1-size: " << maps.at(0).size() << " x " << maps.at(0).size() << endl;
+  cout << "maps2-size: " << maps.at(1).size() << " x " << maps.at(0).size() << endl;
   
   assert(!maps.at(0).empty());
   assert(!maps.at(1).empty());
@@ -150,31 +150,31 @@ int main()
   起点部分
   */
   vector<pair<coordinate,int>> starts;
-  starts.emplace_back(make_pair(coordinate(5,7),1));//5 7
+  starts.emplace_back(make_pair(coordinate(5,7),1));
   // starts.emplace_back(make_pair(coordinate(6,10),1));
   // starts.emplace_back(make_pair(coordinate(12,4),1));
-  // starts.emplace_back(make_pair(coordinate(6,17),1));// 6 17
+  // starts.emplace_back(make_pair(coordinate(6,17),1));
   // starts.emplace_back(make_pair(coordinate(9,2),2));
   // starts.emplace_back(make_pair(coordinate(18,17),2));
   /*
   终点部分
   */
   vector<coordinate> ends;
-  ends.emplace_back(coordinate(17,17));// 17
+  ends.emplace_back(coordinate(17,17));
   // ends.emplace_back(coordinate(16,3));
   // ends.emplace_back(coordinate(1,9));
-  // ends.emplace_back(coordinate(12,10));//12 9
+  // ends.emplace_back(coordinate(12,10));
   // ends.emplace_back(coordinate(17,10));
   // ends.emplace_back(coordinate(6,7));
 
 
 
   Astar astar;
-  ECBS ecbs;
+  OCBS ocbs;
   Common common;
   ConstraintTable ct;
 
-  ecbs.initialize(maps,starts,ends,6,2);
+  ocbs.initialize(maps,starts,ends,6,2);
   astar.setMapsize(maps.at(0));
   vector<Path> ps;
   //---------------------路径数据--------------------------------------
@@ -197,29 +197,54 @@ int main()
   starts2.emplace_back(make_pair(coordinate(4,8),1));
   starts2.emplace_back(make_pair(coordinate(7,1),1));
   starts2.emplace_back(make_pair(coordinate(8,6),1));
-  
-  
+  // common.Pause();  
   //------------------------------------------------------------------
   /*
   TEST1：路径生成测试
   TEST2: 减少路径转弯次数测试
   */
   Path p = astar.run(maps.at(0), starts.at(0).first, ends.front());
+  cout << "起点：(" << starts.at(0).first.x <<", " << starts.at(0).first.y << ") -> 终点(" << ends.front().x << ", " << ends.front().y << ")" << endl;
+  // common.Pause();  
   cout << "----------------origin-----------------" << endl;
   astar.drawPath(p, init_map1);
+  cout << endl;
+  // common.Pause();  
   cout << "--------------minTurnsPath-------------" << endl;
-  Path minp = ecbs.minTurnsPath(p, starts.front().second);
+  Path minp = ocbs.minTurnsPath(p, starts.front().second);
   astar.drawPath(minp, init_map1);
+  cout << endl;
   //-------------------------------------------------------------------
-  coordinate vA_hA_inner_c = ecbs.getIntersectionPoint(horiP_1_A, vertP_1_A);//获取交并点
-  vector<int> vA_vB_inner_p = ecbs.getIntersectionLine(vertP_1_A, vertP_1_B, false);//获取交并线的4个交点(纵向)
-  vector<int> hA_hB_inner_p = ecbs.getIntersectionLine(horiP_1_A, horiP_1_B, true);//获取交并线的4个交点(横向)
+  coordinate vA_hA_inner_c = ocbs.getIntersectionPoint(horiP_1_A, vertP_1_A);//获取交并点
+  vector<int> vA_vB_inner_p = ocbs.getIntersectionLine(vertP_1_A, vertP_1_B, false);//获取交并线的4个交点(纵向)
+  vector<int> hA_hB_inner_p = ocbs.getIntersectionLine(horiP_1_A, horiP_1_B, true);//获取交并线的4个交点(横向)
   
   ct.starts_ = starts2;
   ct.initialize(init_map1.size(),init_map1.size());
   ct.setCT(ps, 1, 6);
-  
-
+  Path replanPath = astar.run(maps.at(0), starts2.at(1).first, coordinate(6,10), ct, 1);
+  cout << "---------------replanPath---------------" << endl;
+  astar.drawPath(replanPath, init_map1);
+  //-------------------------------------------------------------------
+   OCBSNode* testNode = new OCBSNode();
+  //测试正常碰撞情况
+  //读取双路径文件，先写横，再写竖边
+  //[0][1]:正常交点碰撞测试，[2][3]:终点相交碰撞，[2][4]：相差1格碰撞，[2][5]：相差2格碰撞
+  vector<Path> vertexConfPaths = common.readPathFromFile("/home/yyf/path_prediction/path/vertexConf/commonVertex.txt");
+  testNode->paths_ = vertexConfPaths;
+  // cout << "正常相交碰撞检测!" << endl;
+  // ocbs.find_vertexConflict(vertexConfPaths.at(0), vertexConfPaths.at(1),
+  //                          1,1,0,1,testNode);
+  // cout << "终点相交碰撞检测!" << endl;                    
+  // ocbs.find_vertexConflict(vertexConfPaths.at(2), vertexConfPaths.at(3),
+  //                          1,1,2,3,testNode);
+  // cout << "x维度相差1格碰撞检测!" << endl;                         
+  // ocbs.find_vertexConflict(vertexConfPaths.at(2), vertexConfPaths.at(4),
+  //                          1,1,2,4,testNode);
+  cout << "x维度相差2格碰撞检测! 横反纵正" << endl;
+  ocbs.find_vertexConflict(vertexConfPaths.at(2), vertexConfPaths.at(5),
+                           0,1,2,5,testNode);                                               
+              
 
 
   while(1);

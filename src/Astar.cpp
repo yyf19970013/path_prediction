@@ -112,12 +112,17 @@ Path Astar::run(const Map& map, const coordinate& start, const coordinate& goal,
         }
         for(const auto& neighbor : getNeighbors(map, curr))
         {
+            bool canRun = true;
             pair<double,double> neighbor_time = oi.GetTime(start, neighbor);
             for(const auto& t : ct_.at(neighbor.x).at(neighbor.y))
             {
                 if(common_.isTimeOverlap(t, neighbor_time))
+                {
+                    canRun = false;
                     continue;
+                }
             }
+            if(!canRun) continue;
             int next_g_val = curr->g_val + 1;
             int next_h_val = compute_h_value(neighbor, goal);
             if(next_g_val >= INT_MAX) continue;

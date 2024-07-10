@@ -1,12 +1,12 @@
-#include "ECBS.h"
+#include "OCBS.h"
 
-/// @brief ECBS参数初始化
+/// @brief OCBS参数初始化
 /// @param maps 地图
 /// @param starts 起点
 /// @param ends 终点
 /// @param min_len 无碰撞可行驶长度
 /// @param turntime 转弯时间
-void ECBS::initialize(vector<Map>& maps, vector<pair<coordinate, int>>& starts, vector<coordinate>& ends, int min_len, double turntime)
+void OCBS::initialize(vector<Map>& maps, vector<pair<coordinate, int>>& starts, vector<coordinate>& ends, int min_len, double turntime)
 {
     maps_ = maps;
     starts_ = starts;
@@ -14,12 +14,14 @@ void ECBS::initialize(vector<Map>& maps, vector<pair<coordinate, int>>& starts, 
     min_len_ = min_len;
     turntime_ = turntime;
     num_of_agents_ = starts_.size();
+    row_ = maps_.front().size();
+    col_ = maps_.front().front().size();
     Astar_.setMapsize(maps_.at(0));
 }
 
 /// @brief 运行主函数
 /// @return 
-bool ECBS::run()
+bool OCBS::run()
 {
     if(!generate_root_node()) return false;
 
@@ -30,7 +32,7 @@ bool ECBS::run()
         std::uniform_int_distribution<int> dis(1,1000);
         this->randomNum_ = dis(gen);
 
-        ECBSNode* curr = open_list_.top();
+        OCBSNode* curr = open_list_.top();
         open_list_.pop();
         curr->in_openlist_ = false;
 
@@ -54,10 +56,10 @@ bool ECBS::run()
         {
             //TODO:这里加一个best_node 赋值模块
 
-            ECBSNode* n[2];
+            OCBSNode* n[2];
             for(int i = 0; i < 2; ++i)
             {
-                n[i] = new ECBSNode(curr);
+                n[i] = new OCBSNode(curr);
                 resolve_sideConflict(n[0], n[1]);
             }
 
@@ -82,9 +84,9 @@ bool ECBS::run()
 
 /// @brief 头节点生成部分
 /// @return 
-bool ECBS::generate_root_node()
+bool OCBS::generate_root_node()
 {
-    dummy_start_ = new ECBSNode();
+    dummy_start_ = new OCBSNode();
     for(size_t i = 0; i < num_of_agents_; ++i)
     {
         if(i > 0)
@@ -126,7 +128,7 @@ bool ECBS::generate_root_node()
         dummy_start_->paths_.push_back(path);
     }
     
-    for(const auto& p : dummy_start_->spaths_)//TODO:涉及到下次更新如何去一直更新，可能需要将路径在ECBS模块中进行随动
+    for(const auto& p : dummy_start_->spaths_)//TODO:涉及到下次更新如何去一直更新，可能需要将路径在OCBS模块中进行随动
     {
         int len = p.at(0).size();
         min_len_ = min(min_len_, len);  
@@ -143,7 +145,7 @@ bool ECBS::generate_root_node()
 /// @brief 计算查找边冲突
 /// @param len 路径查找长度范围
 /// @param node 对应节点
-void ECBS::find_sideConflicts(int len, ECBSNode* node)//计算边冲突
+void OCBS::find_sideConflicts(int len, OCBSNode* node)//计算边冲突
 {   
     if(len == 1)
     {
@@ -222,7 +224,7 @@ void ECBS::find_sideConflicts(int len, ECBSNode* node)//计算边冲突
 /// @param horizonLine 横向线段
 /// @param vertiLine 纵向线段
 /// @return 相交点
-coordinate ECBS::getIntersectionPoint(const Path& horizonLine, const Path& vertiLine)
+coordinate OCBS::getIntersectionPoint(const Path& horizonLine, const Path& vertiLine)
 {
     coordinate coord{horizonLine.front().x, vertiLine.front().y};
     int min_x, max_x, min_y, max_y;
@@ -241,7 +243,7 @@ coordinate ECBS::getIntersectionPoint(const Path& horizonLine, const Path& verti
 /// @param line2 2线段
 /// @param isX 横向 or 纵向
 /// @return 只包含坐标发生变化的信息，例：纵向-保存x信息；横向-保存y信息
-vector<int> ECBS::getIntersectionLine(const Path& line1, const Path& line2, bool isX)//
+vector<int> OCBS::getIntersectionLine(const Path& line1, const Path& line2, bool isX)//
 {   
     if(isX)//横向
     {
@@ -269,7 +271,7 @@ vector<int> ECBS::getIntersectionLine(const Path& line1, const Path& line2, bool
 /// @param path 初始路径
 /// @param agvClass 车辆正反车信息：1-正，0-反
 /// @return 处理后路径
-Path ECBS::minTurnsPath(const Path& path,int agvClass)//
+Path OCBS::minTurnsPath(const Path& path,int agvClass)//
 {   
     vector<coordinate> conner_coord;
     int len = path.size();
@@ -364,7 +366,7 @@ Path ECBS::minTurnsPath(const Path& path,int agvClass)//
 /// @param path 被判断路径
 /// @param ID 车辆正反车信息
 /// @return 是否有obs穿过
-bool ECBS::isCrossObs(const Path& path, int ID)//ID:1、2、3、4
+bool OCBS::isCrossObs(const Path& path, int ID)//ID:1、2、3、4
 {
     Map m = maps_.at(ID);
     int len = path.size();
@@ -392,7 +394,7 @@ bool ECBS::isCrossObs(const Path& path, int ID)//ID:1、2、3、4
 /// @param start 起点
 /// @param end 终点
 /// @return 包含起点终点的路径
-Path ECBS::connectPath(const coordinate& start, const coordinate& end)
+Path OCBS::connectPath(const coordinate& start, const coordinate& end)
 {
     Path p;//依旧左闭右开
     if(start.x == end.x && start.y > end.y)// 平行且向左延伸
@@ -437,7 +439,7 @@ Path ECBS::connectPath(const coordinate& start, const coordinate& end)
 /// @brief 根据转弯点生成路径
 /// @param turns 转弯点（包含起点和终点）
 /// @return 路径
-Path ECBS::getPointPath(const vector<coordinate>& turns)
+Path OCBS::getPointPath(const vector<coordinate>& turns)
 {
     Path resPath;
     for(size_t i = 0; i < turns.size() - 1; ++i)
@@ -478,7 +480,7 @@ Path ECBS::getPointPath(const vector<coordinate>& turns)
 /// @brief 获取转弯点的下标信息（多余函数）
 /// @param path 路径
 /// @param cs 存储下标
-void ECBS::getConneridx(const Path& path, vector<int>& cs)
+void OCBS::getConneridx(const Path& path, vector<int>& cs)
 {
     int len = path.size();
     if(len <= 2) return;
@@ -496,7 +498,7 @@ void ECBS::getConneridx(const Path& path, vector<int>& cs)
 /// @brief 记录点碰撞信息
 /// @param len 无碰撞长度
 /// @param node 节点信息
-void ECBS::find_vertexConflicts(int len, ECBSNode* node)
+void OCBS::find_vertexConflicts(int len, OCBSNode* node)
 {
     for(int i = 0; i < num_of_agents_ - 1; ++i)
     {  
@@ -544,11 +546,11 @@ void ECBS::find_vertexConflicts(int len, ECBSNode* node)
 /// @param x_driect 纵向 or 横向
 /// @param dot_res 同向 or 异向
 /// @param node 节点
-void ECBS::find_sideConflict(const Path& iLine, const Path& jLine, 
+void OCBS::find_sideConflict(const Path& iLine, const Path& jLine, 
                             int i_ori, int j_ori,
                             int iID, int jID,
                             bool x_driect, int dot_res,
-                            ECBSNode* node)
+                            OCBSNode* node)
 {
     if(dot_res == 0)//点碰撞中存在的需重规划部分
     {
@@ -703,11 +705,12 @@ void ECBS::find_sideConflict(const Path& iLine, const Path& jLine,
 /// @param iID 
 /// @param jID 
 /// @param node 
-void ECBS::find_vertexConflict(const Path& iLine, const Path& jLine,
+void OCBS::find_vertexConflict(const Path& iLine, const Path& jLine,
                                int i_ori, int j_ori,
                                int iID, int jID,
-                               ECBSNode* node)
+                               OCBSNode* node)
 {
+
     int len = iLine.size();
     Path horizonLine, vertiLine;
     int horizonOri, vertiOri, horizonID, vertiID;
@@ -739,23 +742,25 @@ void ECBS::find_vertexConflict(const Path& iLine, const Path& jLine,
         vertiLine.front() == inter_point && vertiLine.front() == horizonLine.back()) return;
 
         bool vertFrontisTurn = false, horizonFrontisTurn = false;//判断起点是否为转角点
-        for(const auto& turn : node->turnPoints.at(vertiID))
+        if(!node->turnPoints.empty())
         {
-            if(vertiLine.front() == turn)
+            for(const auto& turn : node->turnPoints.at(vertiID))
             {
-                vertFrontisTurn == true;
-                break;
+                if(vertiLine.front() == turn)
+                {
+                    vertFrontisTurn == true;
+                    break;
+                }
+            }
+            for(const auto& turn : node->turnPoints.at(horizonID))
+            {
+                if(horizonLine.front() == turn)
+                {
+                    vertFrontisTurn == true;
+                    break;
+                }
             }
         }
-        for(const auto& turn : node->turnPoints.at(horizonID))
-        {
-            if(horizonLine.front() == turn)
-            {
-                vertFrontisTurn == true;
-                break;
-            }
-        }
-
         if(vertFrontisTurn == horizonFrontisTurn)//考虑了2者都为拐点或者2者都不为拐点
         {
             pair<double,double> horizonTime = oi.GetTime(horizonLine.front(), inter_point);//获取横向到碰撞点
@@ -874,7 +879,7 @@ void ECBS::find_vertexConflict(const Path& iLine, const Path& jLine,
                     return;
                 }  
             }
-            else if(horizonLine.front().x - vert_max_x == -2)//横下， 竖上（间隔1）
+            else if(horizonLine.front().x - vert_max_x == 2)//横下， 竖上（间隔1）
             {
                 if(vertiOri == 1 && horizonOri == 0)
                 {
@@ -934,7 +939,7 @@ void ECBS::find_vertexConflict(const Path& iLine, const Path& jLine,
                     return;
                 }  
             }
-            else if(horizonLine.front().x - vert_max_x == -1)//横下，竖上
+            else if(horizonLine.front().x - vert_max_x == 1)//横下，竖上
             {
                 if((vertiOri == horizonOri) || (vertiOri == 0 && horizonOri == 1))
                 {
@@ -981,7 +986,7 @@ void ECBS::find_vertexConflict(const Path& iLine, const Path& jLine,
 /// @param path 路径
 /// @param coord 点
 /// @return 是否位于
-bool ECBS::isInLine(const Path& path, const coordinate& coord)
+bool OCBS::isInLine(const Path& path, const coordinate& coord)
 {
     if((coord.x < 0 || coord.x >= row_) ||
        (coord.y < 0 || coord.y >= col_)) return false;
@@ -995,7 +1000,7 @@ bool ECBS::isInLine(const Path& path, const coordinate& coord)
 /// @brief 给边冲突路径赋重规划优先级
 /// @param n1 1节点
 /// @param n2 2节点
-void ECBS::resolve_sideConflict(ECBSNode* n1, ECBSNode* n2)
+void OCBS::resolve_sideConflict(OCBSNode* n1, OCBSNode* n2)
 {
     sideConflict conf = n1->sideConflicts_.back();
     n1->sideConflicts_.pop_back();
@@ -1014,7 +1019,7 @@ void ECBS::resolve_sideConflict(ECBSNode* n1, ECBSNode* n2)
 
 /// @brief 每次循环开始都自下而上更新节点中路径
 /// @param node 节点
-void ECBS::update_paths(ECBSNode* node)
+void OCBS::update_paths(OCBSNode* node)
 {
     vector<bool> updated(num_of_agents_, false);
     paths_.resize(num_of_agents_);//少了这个下面加数据一直报错
@@ -1035,7 +1040,7 @@ void ECBS::update_paths(ECBSNode* node)
 /// @brief 生成子孩子
 /// @param node 父节点
 /// @return 是否生成次成功
-bool ECBS::generate_child(ECBSNode* node)
+bool OCBS::generate_child(OCBSNode* node)
 {
     if(!find_path(node)) return false;
     else return true;
@@ -1044,13 +1049,13 @@ bool ECBS::generate_child(ECBSNode* node)
 /// @brief 重规划路径函数
 /// @param node 当前重规划节点
 /// @return 是否成功
-bool ECBS::find_path(ECBSNode* node)
+bool OCBS::find_path(OCBSNode* node)
 {
     Path path;
     int agvClass = starts_.at(node->constraintID_).second % 2;
     ct_.setCT(node->paths_, node->constraintID_, min_len_);
     Map map = maps_.at(node->constraintID_ % 2);//TODO:为了测试的写法，后面记得改
-    path = Astar_.runt(map, starts_.at(node->constraintID_).first, ends_.at(node->constraintID_), ct_, agvClass);
+    path = Astar_.run(map, starts_.at(node->constraintID_).first, ends_.at(node->constraintID_), ct_, agvClass);
     //TODO：这里记录path_cost，但是要删除之前的值
     node->f_val_ = node->f_val_ - node->path_cost_.at(node->constraintID_) + Astar_.path_cost;
     node->path_cost_.at(node->constraintID_) = Astar_.path_cost;
@@ -1062,7 +1067,7 @@ bool ECBS::find_path(ECBSNode* node)
 /// @brief 用以处理点碰撞对应的3种解决方式
 /// @param node 节点信息
 /// @param updated 是否当前车辆的路径信息被更新，传出去以防被边冲突重规划路径污染
-void ECBS::resolveVertexConf(ECBSNode* node, vector<bool> updated)
+void OCBS::resolveVertexConf(OCBSNode* node, vector<bool> updated)
 {
     /*
     1、对异常信息处理（其中1点异常、其中2点异常）异常包括：非法点位 / 不在正常路径中
@@ -1144,7 +1149,7 @@ void ECBS::resolveVertexConf(ECBSNode* node, vector<bool> updated)
 /// @param c 被判断点 
 /// @param ID 对应车辆ID
 /// @return 返回是否有效信息
-bool ECBS::validCoord(const coordinate& c, const int& ID)
+bool OCBS::validCoord(const coordinate& c, const int& ID)
 {
     if(c.x >= 0 && c.x < row_ && c.y >= 0 && c.y < col_)
     {
@@ -1157,7 +1162,7 @@ bool ECBS::validCoord(const coordinate& c, const int& ID)
 
 /// @brief 返回最终行驶的局部路径
 /// @return 每个车辆的局部路径
-vector<Path> ECBS::get_runpaths()
+vector<Path> OCBS::get_runpaths()
 {
     return runPaths_;
 }
@@ -1167,7 +1172,7 @@ vector<Path> ECBS::get_runpaths()
 /// @param c2 点2
 /// @param agvClass 车辆正反信息 
 /// @return 是否可连接相通
-bool ECBS::areConnected(const coordinate& c1, const coordinate& c2, int agvClass)
+bool OCBS::areConnected(const coordinate& c1, const coordinate& c2, int agvClass)
 {
     
     Map& m = maps_.at(agvClass);

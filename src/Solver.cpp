@@ -7,7 +7,7 @@ Solver::Solver(vector<Map>& maps, vector<pair<coordinate, int>>& starts, vector<
     ends_ = ends;
     min_len_ = min_len;
     turntime_ = turntime;
-    ECBS_.initialize(maps,starts,ends,min_len,turntime);
+    ocbs_.initialize(maps,starts,ends,min_len,turntime);
 }
 
 void Solver::run()
@@ -21,14 +21,14 @@ void Solver::run()
         // ends_ = oi_.getEnds();
         // updateStarts();
         // updateEnds(ends_);
-        bool succ = ECBS_.run();
-        // vector<Path> runpath = ECBS_.get_runpaths();
+        bool succ = ocbs_.run();
+        // vector<Path> runpath = ocbs_.get_runpaths();
         // for(int i = 0; i < starts_.size(); ++i)
         // {
         //     if(pathPool.at(i).size() < 2)  // 报错
         //     {
         //         pathPool.at(i).at(0) = pathPool.at(i).at(1);
-        //         pathPool.at(i).push_back(ECBS_.runPaths_.at(i));
+        //         pathPool.at(i).push_back(ocbs_.runPaths_.at(i));
         //     }
         // }
         // string res = serializePaths(runpath);
@@ -45,7 +45,7 @@ void Solver::updateStarts()
             // if(oi_.arriveEnd(i))
             //     starts_.at(i).first = oi_.getCoord(i);
             // else
-                starts_.at(i).first = ECBS_.runPaths_.front().back();
+                starts_.at(i).first = ocbs_.runPaths_.front().back();
         }
     }
 }
@@ -58,9 +58,9 @@ void Solver::updateEnds(vector<coordinate> ends)
         else if(ends_.at(i) == coordinate()) ends_.at(i) = ends.at(i);
         else if(!(ends.at(i) == coordinate()) && !(ends_.at(i) == coordinate()))
         {
-            for(size_t j = 0; i < ECBS_.spaths_.size(); ++i)
+            for(size_t j = 0; i < ocbs_.spaths_.size(); ++i)
             {
-                for(const auto& p : ECBS_.spaths_.at(j))
+                for(const auto& p : ocbs_.spaths_.at(j))
                 {
                     if(p.front() == ends.at(i)) ends_.at(i) = ends.at(i);
                 }

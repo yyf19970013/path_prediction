@@ -1,15 +1,15 @@
-#ifndef ECBSNODE_H
-#define ECBSNODE_H
+#ifndef OCBSNODE_H
+#define OCBSNODE_H
 
 #include "Common.h"
 
-class ECBSNode{
+class OCBSNode{
 
 public:
 
     struct compare_node
     {
-        bool operator()(const ECBSNode* n1, const ECBSNode* n2) const
+        bool operator()(const OCBSNode* n1, const OCBSNode* n2) const
         {
             return n1->f_val_ >= n2->f_val_;
             // return n1->min_f_val_ >= n2->min_f_val_;
@@ -18,7 +18,7 @@ public:
 
     struct secondary_compare_node
     {
-        bool operator()(const ECBSNode* n1, const ECBSNode* n2) const
+        bool operator()(const OCBSNode* n1, const OCBSNode* n2) const
         {
             if(n1->num_of_collisions_ == n2->num_of_collisions_)
             {
@@ -28,14 +28,14 @@ public:
         }
     };
 
-    typedef fibonacci_heap< ECBSNode*, compare<ECBSNode::compare_node> >::handle_type open_handle_t;
-    typedef fibonacci_heap< ECBSNode*, compare<ECBSNode::secondary_compare_node> >::handle_type focal_handle_t;
+    typedef fibonacci_heap< OCBSNode*, compare<OCBSNode::compare_node> >::handle_type open_handle_t;
+    typedef fibonacci_heap< OCBSNode*, compare<OCBSNode::secondary_compare_node> >::handle_type focal_handle_t;
     open_handle_t open_handle;
     focal_handle_t focal_handle;
 
-    ECBSNode(): parent_(nullptr), g_val_(0), h_val_(0), min_f_val_(0){}
-    ECBSNode(ECBSNode* parent);
-    ~ECBSNode() = default;
+    OCBSNode(): parent_(nullptr), g_val_(0), h_val_(0), min_f_val_(0){}
+    OCBSNode(OCBSNode* parent);
+    ~OCBSNode() = default;
     bool IsSideConfEmpty(){return sideConflicts_.empty();}
 
     int constraintID_;
@@ -47,7 +47,7 @@ public:
     vector<sidePath> spaths_;//tuple[0]：正反车标志位,
     vector<Path> turnPoints; //各路径转弯拐点//TODO：在每次计算路径的时候都要记录以下    
 
-    ECBSNode* parent_;
+    OCBSNode* parent_;
     double g_val_;
     double h_val_;
     double f_val_;

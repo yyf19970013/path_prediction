@@ -166,15 +166,7 @@
 //   ends.emplace_back(coordinate(17,10));
 //   ends.emplace_back(coordinate(6,7));
 
-//   /*
-//   用以测试路径生成，这里生成无问题，主要就是看 6，10 -> 16,3这个点
-//   这俩个点在下面的测试流程中能生成路径，但是在主函数里生成不了。
 
-//   具体调试到下面 solver.run（）-> ECBS_.run() -> generate_root_node() ->
-//   for语句 i = 1 第二次循环到 Path path = Astar_.run(map, start, end); 时候他生成不了路径。，而外面测试是可以生成的，也就是下面Astar这一段
-
-//   我怀疑是我昨天跟您说的那个问题,里面有个函数叫 Connected，如果把他改成 areConnected，就会段错误，并且是没有执行到就段错误，您可以复现一下
-//   */
 //   // Astar astar;
 //   //   astar.setMapsize(maps.at(0));
 //   // for(int i = 0; i < starts.size(); ++i)

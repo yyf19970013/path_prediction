@@ -54,6 +54,8 @@ using std::random_device;
 using std::ostringstream;
 using std::ifstream;
 using std::stringstream;
+using std::shared_ptr;
+using std::cin;
 
 // enum ConfClass{Vertex, Side};
  
@@ -93,6 +95,8 @@ public:
     
     bool isTimeOverlap(pair<double,double> i_range, pair<double,double> j_range);
     Path readCoordFromFile(const string& filename);
+    vector<Path> readPathFromFile(const string& filename);
+    void Pause();
 
 private:
 

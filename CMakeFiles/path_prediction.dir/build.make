@@ -96,31 +96,31 @@ CMakeFiles/path_prediction.dir/src/ConstraintTable.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/path_prediction.dir/src/ConstraintTable.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yyf/path_prediction/src/ConstraintTable.cpp -o CMakeFiles/path_prediction.dir/src/ConstraintTable.cpp.s
 
-CMakeFiles/path_prediction.dir/src/ECBS.cpp.o: CMakeFiles/path_prediction.dir/flags.make
-CMakeFiles/path_prediction.dir/src/ECBS.cpp.o: src/ECBS.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yyf/path_prediction/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/path_prediction.dir/src/ECBS.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/path_prediction.dir/src/ECBS.cpp.o -c /home/yyf/path_prediction/src/ECBS.cpp
+CMakeFiles/path_prediction.dir/src/OCBS.cpp.o: CMakeFiles/path_prediction.dir/flags.make
+CMakeFiles/path_prediction.dir/src/OCBS.cpp.o: src/OCBS.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yyf/path_prediction/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/path_prediction.dir/src/OCBS.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/path_prediction.dir/src/OCBS.cpp.o -c /home/yyf/path_prediction/src/OCBS.cpp
 
-CMakeFiles/path_prediction.dir/src/ECBS.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/path_prediction.dir/src/ECBS.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yyf/path_prediction/src/ECBS.cpp > CMakeFiles/path_prediction.dir/src/ECBS.cpp.i
+CMakeFiles/path_prediction.dir/src/OCBS.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/path_prediction.dir/src/OCBS.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yyf/path_prediction/src/OCBS.cpp > CMakeFiles/path_prediction.dir/src/OCBS.cpp.i
 
-CMakeFiles/path_prediction.dir/src/ECBS.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/path_prediction.dir/src/ECBS.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yyf/path_prediction/src/ECBS.cpp -o CMakeFiles/path_prediction.dir/src/ECBS.cpp.s
+CMakeFiles/path_prediction.dir/src/OCBS.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/path_prediction.dir/src/OCBS.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yyf/path_prediction/src/OCBS.cpp -o CMakeFiles/path_prediction.dir/src/OCBS.cpp.s
 
-CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.o: CMakeFiles/path_prediction.dir/flags.make
-CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.o: src/ECBSNode.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yyf/path_prediction/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.o -c /home/yyf/path_prediction/src/ECBSNode.cpp
+CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.o: CMakeFiles/path_prediction.dir/flags.make
+CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.o: src/OCBSNode.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/yyf/path_prediction/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.o -c /home/yyf/path_prediction/src/OCBSNode.cpp
 
-CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yyf/path_prediction/src/ECBSNode.cpp > CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.i
+CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/yyf/path_prediction/src/OCBSNode.cpp > CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.i
 
-CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yyf/path_prediction/src/ECBSNode.cpp -o CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.s
+CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/yyf/path_prediction/src/OCBSNode.cpp -o CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.s
 
 CMakeFiles/path_prediction.dir/src/OutIn.cpp.o: CMakeFiles/path_prediction.dir/flags.make
 CMakeFiles/path_prediction.dir/src/OutIn.cpp.o: src/OutIn.cpp
@@ -179,8 +179,8 @@ path_prediction_OBJECTS = \
 "CMakeFiles/path_prediction.dir/src/Astar.cpp.o" \
 "CMakeFiles/path_prediction.dir/src/Common.cpp.o" \
 "CMakeFiles/path_prediction.dir/src/ConstraintTable.cpp.o" \
-"CMakeFiles/path_prediction.dir/src/ECBS.cpp.o" \
-"CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.o" \
+"CMakeFiles/path_prediction.dir/src/OCBS.cpp.o" \
+"CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.o" \
 "CMakeFiles/path_prediction.dir/src/OutIn.cpp.o" \
 "CMakeFiles/path_prediction.dir/src/Solver.cpp.o" \
 "CMakeFiles/path_prediction.dir/src/main.cpp.o" \
@@ -192,8 +192,8 @@ path_prediction_EXTERNAL_OBJECTS =
 path_prediction: CMakeFiles/path_prediction.dir/src/Astar.cpp.o
 path_prediction: CMakeFiles/path_prediction.dir/src/Common.cpp.o
 path_prediction: CMakeFiles/path_prediction.dir/src/ConstraintTable.cpp.o
-path_prediction: CMakeFiles/path_prediction.dir/src/ECBS.cpp.o
-path_prediction: CMakeFiles/path_prediction.dir/src/ECBSNode.cpp.o
+path_prediction: CMakeFiles/path_prediction.dir/src/OCBS.cpp.o
+path_prediction: CMakeFiles/path_prediction.dir/src/OCBSNode.cpp.o
 path_prediction: CMakeFiles/path_prediction.dir/src/OutIn.cpp.o
 path_prediction: CMakeFiles/path_prediction.dir/src/Solver.cpp.o
 path_prediction: CMakeFiles/path_prediction.dir/src/main.cpp.o

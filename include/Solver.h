@@ -3,7 +3,7 @@
 
 #include "Common.h"
 #include "OutIn.h"
-#include "ECBS.h"
+#include "OCBS.h"
 //此类负责更新地图，最外层的解决方案
 
 class Solver{
@@ -26,7 +26,7 @@ public:
     vector<Map> maps_;
 
     OutIn oi_;
-    ECBS ECBS_;
+    OCBS ocbs_;
     Common common_;
 
     int min_len_;
